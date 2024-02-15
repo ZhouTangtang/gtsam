@@ -7,7 +7,9 @@ The modifications generally include:
 * Add a flexible marginalization method, which is modified from [DM-VIO](https://github.com/lukasvst/dm-vio/blob/master/src/GTSAMIntegration/Marginalization.cpp).
 * Add related python APIs.
 
-This modified version is gnerally for python binding usage. Follow the python binding installation instructions of GTSAM to install it.
+Refer to the commit history to check the changes.
+
+This modified version is generally for python binding usage. Follow the python binding installation instructions of GTSAM to install it.
 
 ## Important Note
 
