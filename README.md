@@ -9,7 +9,7 @@ The modifications generally include:
 
 Refer to the commit history to check the changes.
 
-This modified version is generally for python binding usage. Follow the python binding installation instructions of GTSAM to install it.
+This modified version is generally for python binding usage. Follow the [python](python/README.md) binding installation instructions of GTSAM to install it.
 
 ## Important Note
 
