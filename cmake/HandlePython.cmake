@@ -22,8 +22,8 @@ if(GTSAM_BUILD_PYTHON OR GTSAM_INSTALL_MATLAB_TOOLBOX)
     else()
       # Get info about the Python3 interpreter
       # https://cmake.org/cmake/help/latest/module/FindPython3.html#module:FindPython3
+      set(Python3_FIND_VIRTUALENV FIRST) 
       find_package(Python3 COMPONENTS Interpreter Development)
-
       if(NOT ${Python3_FOUND})
         message(
           FATAL_ERROR

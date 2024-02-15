@@ -369,7 +369,8 @@ virtual class HessianFactor : gtsam::GaussianFactor {
       Vector g1, Matrix G22, Matrix G23, Vector g2, Matrix G33, Vector g3,
       double f);
   HessianFactor(const gtsam::GaussianFactorGraph& factors);
-
+  HessianFactor(const gtsam::KeyVector& keys, const gtsam::FastVector<uint64_t>& dims,
+  const gtsam::Matrix& info);
   //Testable
   void print(string s = "", const gtsam::KeyFormatter& keyFormatter =
                                 gtsam::DefaultKeyFormatter) const;

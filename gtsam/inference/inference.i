@@ -204,6 +204,7 @@ virtual class Factor {
   bool empty() const;
   size_t size() const;
   gtsam::KeyVector keys() const;
+  void resetKeys(const gtsam::KeyVector& keys);
 };
 
 }  // namespace gtsam

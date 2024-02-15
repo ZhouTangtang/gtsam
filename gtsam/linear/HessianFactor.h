@@ -153,6 +153,8 @@ namespace gtsam {
         const Matrix& G11, const Matrix& G12, const Matrix& G13, const Vector& g1,
         const Matrix& G22, const Matrix& G23, const Vector& g2,
         const Matrix& G33, const Vector& g3, double f);
+    
+    HessianFactor(const KeyVector& js, const FastVector<std::uint64_t>& dims, const Matrix& info);
 
     /** Construct an n-way factor.  Gs contains the upper-triangle blocks of the
      * quadratic term (the Hessian matrix) provided in row-order, gs the pieces

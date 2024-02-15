@@ -211,6 +211,17 @@ virtual class CombinedImuFactor: gtsam::NonlinearFactor {
       const gtsam::Pose3& pose_j, Vector vel_j,
       const gtsam::imuBias::ConstantBias& bias_i,
       const gtsam::imuBias::ConstantBias& bias_j);
+  Vector evaluateErrorCustom(const gtsam::Pose3& pose_i, Vector vel_i,
+      const gtsam::Pose3& pose_j, Vector vel_j,
+      const gtsam::imuBias::ConstantBias& bias_i,
+      const gtsam::imuBias::ConstantBias& bias_j,
+      Eigen::Ref<Eigen::MatrixXd> H1, Eigen::Ref<Eigen::MatrixXd> H2,
+      Eigen::Ref<Eigen::MatrixXd> H3, Eigen::Ref<Eigen::MatrixXd> H4,
+      Eigen::Ref<Eigen::MatrixXd> H5, Eigen::Ref<Eigen::MatrixXd> H6);
+  Vector evaluateErrorCustom(const gtsam::Pose3& pose_i, Vector vel_i,
+      const gtsam::Pose3& pose_j, Vector vel_j,
+      const gtsam::imuBias::ConstantBias& bias_i,
+      const gtsam::imuBias::ConstantBias& bias_j);
 };
 
 #include <gtsam/navigation/AHRSFactor.h>
@@ -308,6 +319,20 @@ virtual class GPSFactor2 : gtsam::NonlinearFactor {
   void print(string s = "", const gtsam::KeyFormatter& keyFormatter =
                                 gtsam::DefaultKeyFormatter) const;
   bool equals(const gtsam::GPSFactor2& expected, double tol);
+
+  // Standard Interface
+  gtsam::Point3 measurementIn() const;
+};
+
+#include <gtsam/navigation/VelFactor.h>
+virtual class VelFactor : gtsam::NonlinearFactor{
+  VelFactor(size_t key1, size_t key2, const gtsam::Point3& In,
+            const gtsam::noiseModel::Base* model);
+
+  // Testable
+  void print(string s = "", const gtsam::KeyFormatter& keyFormatter =
+                                gtsam::DefaultKeyFormatter) const;
+  bool equals(const gtsam::VelFactor& expected, double tol);
 
   // Standard Interface
   gtsam::Point3 measurementIn() const;

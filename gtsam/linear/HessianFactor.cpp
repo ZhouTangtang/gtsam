@@ -130,6 +130,11 @@ HessianFactor::HessianFactor(Key j1, Key j2, Key j3, const Matrix& G11,
   constantTerm() = f;
 }
 
+HessianFactor::HessianFactor(const KeyVector& js, const FastVector<std::uint64_t>& dims, const Matrix& info):
+GaussianFactor(js), info_(dims, info, true) {
+}
+
+
 /* ************************************************************************* */
 namespace {
 static std::vector<DenseIndex> _getSizeHFVec(const std::vector<Vector>& m) {

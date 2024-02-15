@@ -210,6 +210,8 @@ if(GTSAM_UNSTABLE_BUILD_PYTHON)
 
 endif()
 
+message(${PYTHON_EXECUTABLE} ${GTSAM_PYTHON_DEPENDENCIES} ${GTSAM_PYTHON_BUILD_DIRECTORY})
+message(!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
 # Add custom target so we can install with `make python-install`
 set(GTSAM_PYTHON_INSTALL_TARGET python-install)
 add_custom_target(${GTSAM_PYTHON_INSTALL_TARGET}

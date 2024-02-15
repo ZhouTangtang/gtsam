@@ -279,6 +279,14 @@ class GTSAM_EXPORT CombinedImuFactor
                        OptionalMatrixType H3, OptionalMatrixType H4,
                        OptionalMatrixType H5,
                        OptionalMatrixType H6) const override;
+  Vector evaluateErrorCustom(const Pose3& pose_i, const Vector3& vel_i,
+                       const Pose3& pose_j, const Vector3& vel_j,
+                       const imuBias::ConstantBias& bias_i,
+                       const imuBias::ConstantBias& bias_j,
+                       OptionalJacobian<15, 6> H1 = {}, OptionalJacobian<15, 3> H2 = {},
+                       OptionalJacobian<15, 6> H3 = {}, OptionalJacobian<15, 3> H4 = {},
+                       OptionalJacobian<15, 6> H5 = {},
+                       OptionalJacobian<15, 6> H6 = {}) const;
 
  private:
 #ifdef GTSAM_ENABLE_BOOST_SERIALIZATION

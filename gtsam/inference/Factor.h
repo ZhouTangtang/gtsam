@@ -183,6 +183,8 @@ namespace gtsam {
     /** @return keys involved in this factor */
     KeyVector& keys() { return keys_; }
 
+    void resetKeys(const gtsam::KeyVector& keys) { keys_ = keys; }
+
     /** Iterator at beginning of involved variable keys */
     iterator begin() { return keys_.begin(); }
 

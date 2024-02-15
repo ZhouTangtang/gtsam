@@ -296,6 +296,66 @@ Vector CombinedImuFactor::evaluateError(const Pose3& pose_i,
 }
 
 //------------------------------------------------------------------------------
+Vector CombinedImuFactor::evaluateErrorCustom(const Pose3& pose_i,
+    const Vector3& vel_i, const Pose3& pose_j, const Vector3& vel_j,
+    const imuBias::ConstantBias& bias_i, const imuBias::ConstantBias& bias_j,
+          OptionalJacobian<15, 6> H1, OptionalJacobian<15, 3> H2,
+          OptionalJacobian<15, 6> H3, OptionalJacobian<15, 3> H4,
+          OptionalJacobian<15, 6> H5,
+          OptionalJacobian<15, 6> H6) const {
+
+  // error wrt bias evolution model (random walk)
+  Matrix6 Hbias_i, Hbias_j;
+  Vector6 fbias = traits<imuBias::ConstantBias>::Between(bias_j, bias_i,
+      &Hbias_j, &Hbias_i).vector();
+
+  Matrix96 D_r_pose_i, D_r_pose_j, D_r_bias_i;
+  Matrix93 D_r_vel_i, D_r_vel_j;
+
+  // error wrt preintegrated measurements
+  Vector9 r_Rpv = _PIM_.computeErrorAndJacobians(pose_i, vel_i, pose_j, vel_j,
+      bias_i, &D_r_pose_i, &D_r_vel_i, &D_r_pose_j,
+      &D_r_vel_j, &D_r_bias_i);
+
+  // if we need the jacobians
+  if (H1) {
+    H1->block<9, 6>(0, 0) = D_r_pose_i;
+    // adding: [dBiasAcc/dPi ; dBiasOmega/dPi]
+    H1->block<6, 6>(9, 0).setZero();
+  }
+  if (H2) {
+    H2->block<9, 3>(0, 0) = D_r_vel_i;
+    // adding: [dBiasAcc/dVi ; dBiasOmega/dVi]
+    H2->block<6, 3>(9, 0).setZero();
+  }
+  if (H3) {
+    H3->block<9, 6>(0, 0) = D_r_pose_j;
+    // adding: [dBiasAcc/dPj ; dBiasOmega/dPj]
+    H3->block<6, 6>(9, 0).setZero();
+  }
+  if (H4) {
+    H4->block<9, 3>(0, 0) = D_r_vel_j;
+    // adding: [dBiasAcc/dVi ; dBiasOmega/dVi]
+    H4->block<6, 3>(9, 0).setZero();
+  }
+  if (H5) {
+    H5->block<9, 6>(0, 0) = D_r_bias_i;
+    // adding: [dBiasAcc/dBias_i ; dBiasOmega/dBias_i]
+    H5->block<6, 6>(9, 0) = Hbias_i;
+  }
+  if (H6) {
+    H6->block<9, 6>(0, 0).setZero();
+    // adding: [dBiasAcc/dBias_j ; dBiasOmega/dBias_j]
+    H6->block<6, 6>(9, 0) = Hbias_j;
+  }
+
+  // overall error
+  Vector r(15);
+  r << r_Rpv, fbias; // vector of size 15
+  return r;
+}
+
+//------------------------------------------------------------------------------
 std::ostream& operator<<(std::ostream& os, const CombinedImuFactor& f) {
   f._PIM_.print("combined preintegrated measurements:\n");
   os << "  noise model sigmas: " << f.noiseModel_->sigmas().transpose();

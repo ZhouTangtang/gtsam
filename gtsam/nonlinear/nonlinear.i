@@ -42,6 +42,8 @@ class GraphvizFormatting : gtsam::DotWriter {
 class NonlinearFactorGraph {
   NonlinearFactorGraph();
   NonlinearFactorGraph(const gtsam::NonlinearFactorGraph& graph);
+  
+  HessianFactor* linearizeToHessianFactor(const gtsam::Values& values) const;
 
   // FactorGraph
   void print(string s = "NonlinearFactorGraph: ",
@@ -172,6 +174,8 @@ virtual class LinearContainerFactor : gtsam::NonlinearFactor {
   bool isJacobian() const;
   gtsam::JacobianFactor* toJacobian() const;
   gtsam::HessianFactor* toHessian() const;
+
+  gtsam::Values linearizationPoint() const;
 
   static gtsam::NonlinearFactorGraph ConvertLinearGraph(
       const gtsam::GaussianFactorGraph& linear_graph,
@@ -704,5 +708,11 @@ virtual class BatchFixedLagSmoother : gtsam::FixedLagSmoother {
   VALUE calculateEstimate(size_t key) const;
 };
 
+#include <gtsam/nonlinear/CustomMarginalization.h>
+gtsam::LinearContainerFactor
+marginalizeOut(const gtsam::NonlinearFactorGraph& graph, const gtsam::Values& values,
+               const gtsam::FastVector<gtsam::Key>& keysToMarginalize);
+gtsam::Matrix BA2GTSAM(const gtsam::Matrix& H,const gtsam::Vector& v, const gtsam::Pose3& Tbc);
+gtsam::Vector GTSAM2BA(const gtsam::Vector& x, const gtsam::Pose3& Tbc);
 
 }  // namespace gtsam
