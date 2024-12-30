@@ -764,4 +764,18 @@ virtual class ProjectionFactorRollingShutter : gtsam::NoiseModelFactor {
   void serialize() const;
 };
 
+#include <gtsam_unstable/slam/AnchoredInvDepthFactor.h>
+virtual class AnchoredInvDepthFactor : gtsam::NoiseModelFactor {
+  AnchoredInvDepthFactor(const gtsam::Point2& measured0, const gtsam::Point2& measured1, const gtsam::noiseModel::Base* model, 
+  size_t poseKey1, size_t poseKey2, size_t idepthKey, const gtsam::Cal3_S2* K);
+  Vector evaluateError(const gtsam::Pose3& pose0, const gtsam::Pose3& pose1, const double& invDepth);
+};
+
+virtual class AnchoredFixedInvDepthFactor : gtsam::NoiseModelFactor {
+  AnchoredFixedInvDepthFactor(const gtsam::Point2& measured0, const gtsam::Point2& measured1, const double& idepth, const gtsam::noiseModel::Base* model, 
+  size_t poseKey1, size_t poseKey2, const gtsam::Cal3_S2* K);
+  Vector evaluateError(const gtsam::Pose3& pose0, const gtsam::Pose3& pose1);
+};
+
+
 } //\namespace gtsam

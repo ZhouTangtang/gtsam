@@ -184,6 +184,8 @@ virtual class LinearContainerFactor : gtsam::NonlinearFactor {
   static gtsam::NonlinearFactorGraph ConvertLinearGraph(
       const gtsam::GaussianFactorGraph& linear_graph);
 
+  gtsam::NonlinearFactor* rekey_explicit(const gtsam::KeyVector& oldKeys,const gtsam::KeyVector& newKeys) const;
+
   // enabling serialization functionality
   void serializable() const;
 };  // \class LinearContainerFactor

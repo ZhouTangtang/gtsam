@@ -206,6 +206,17 @@ NonlinearFactor::shared_ptr LinearContainerFactor::rekey(
   return std::static_pointer_cast<NonlinearFactor>(new_factor);
 }
 
+NonlinearFactor::shared_ptr LinearContainerFactor::rekey_explicit(
+    const KeyVector& old_keys,const KeyVector& new_keys) const {
+  std::map<Key, Key> rekey_mapping;
+  for(size_t i=0; i<new_keys.size(); ++i)
+  {
+    rekey_mapping[old_keys[i]] = new_keys[i]; 
+  }
+  auto new_factor = rekey(rekey_mapping);
+  return std::static_pointer_cast<NonlinearFactor>(new_factor);
+}
+
 /* ************************************************************************* */
 NonlinearFactorGraph LinearContainerFactor::ConvertLinearGraph(
     const GaussianFactorGraph& linear_graph, const Values& linearizationPoint) {

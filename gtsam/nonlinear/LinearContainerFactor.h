@@ -137,6 +137,9 @@ public:
    */
   NonlinearFactor::shared_ptr rekey(const KeyVector& new_keys) const override;
 
+  NonlinearFactor::shared_ptr rekey_explicit(
+     const KeyVector& old_keys,const KeyVector& new_keys) const;
+
   /// Casting syntactic sugar
   inline bool hasLinearizationPoint() const { return linearizationPoint_.has_value(); }
 
