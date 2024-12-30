@@ -1,6 +1,17 @@
-# README - Georgia Tech Smoothing and Mapping Library
+# README
 
-**Important Note**
+This is a modified version of GTSAM, with some modifications and extensions for [DBA-Fusion](https://github.com/GREAT-WHU/DBA-Fusion).
+The modifications generally include:
+* Add some methods for Factor, HessianFactor, CombinedIMUFactor.
+* Add a VelFactor for velocity measurement.
+* Add a flexible marginalization method, which is modified from [DM-VIO](https://github.com/lukasvst/dm-vio/blob/master/src/GTSAMIntegration/Marginalization.cpp).
+* Add related python APIs.
+
+Refer to the commit history to check the changes.
+
+This modified version is generally for python binding usage. Follow the [python](python/README.md) binding installation instructions of GTSAM to install it.
+
+## Important Note
 
 **As of January 2023, the `develop` branch is officially in "Pre 4.3" mode. We envision several API-breaking changes as we switch to C++17 and away from boost.**
 
